@@ -251,7 +251,6 @@ def calculate_components_random(moisture, max_attempts=2000):
 # Streamlit UI
 # ---------------------------
 st.set_page_config(page_title="COA Generator", layout="wide")
-st.title("🧪 COA Document Generator (Auto Randomized Components)")
 
 # session state keys
 if "components" not in st.session_state:
@@ -263,12 +262,12 @@ if "components_moisture" not in st.session_state:
 col_left, col_right = st.columns([2, 1])
 with col_left:
     code = st.selectbox(
-        "Select Product Code Range",
+        "QUALITY choose karo",
         [f"{i}-{i+500}" for i in range(500, 10001, 500)]
     )
-    st.info(f"📄 Using template: COA {code}.docx")
+    st.info(f"📄 aapki QUALITY hai: COA {code}.docx")
 
-    date = st.text_input("Date (e.g., July 2025)")
+    date = st.text_input("DATE iss tarah se daale (JULY 2025)")
 
     # Auto Best Before
     best_before = ""
@@ -295,18 +294,18 @@ with col_left:
         else:
             st.warning("Enter Date in format: July 2025")
 
-    batch_no = st.text_input("Batch Number")
-    moisture = st.number_input("Moisture (%)", min_value=0.0, max_value=99.0, step=0.01, value=10.00, format="%.2f")
+    batch_no = st.text_input("BATCH NUMBER iss tarah se daalo (A/25/11011)")
+    moisture = st.number_input("MOISTURE(%) iss tarah se daalo (11.24)", min_value=0.0, max_value=99.0, step=0.01, value=10.00, format="%.2f")
     st.markdown(
-        "Component values (Fat, Air, Ash, Protein, Gum) are **automatically randomized** (within specified ranges) "
+        "Component values are automatically randomized"
         "and will sum with Moisture to 100%."
     )
 
 with col_right:
-    ph = st.text_input("pH Level (e.g., 6.7)")
-    mesh_200 = st.text_input("200 Mesh (%)")
-    viscosity_2h = st.text_input("Viscosity After 2 Hours (CPS)")
-    viscosity_24h = st.text_input("Viscosity After 24 Hours (CPS)")
+    ph = st.text_input("pH iss tarah se daalo (e.g. 6.7)")
+    mesh_200 = st.text_input("200# MESH(%) iss tarah se daalo (99.95)")
+    viscosity_2h = st.text_input("VISCOSITY 2HRS baad (cPs)")
+    viscosity_24h = st.text_input("VISCOSITY 24HRS baad (cPs)")
 
 # regenerate automatically when moisture changes (to avoid stale components)
 def ensure_components_for_current_moisture():
