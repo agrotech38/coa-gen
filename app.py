@@ -53,6 +53,33 @@ def advanced_replace_text_preserving_style(doc, replacements):
                     replace_in_paragraph(para)
 
 # ---------------------------
+# Best Before Calculator (ADDED)
+# ---------------------------
+def calculate_best_before(date_str):
+    try:
+        date_str = date_str.strip().upper()
+        parts = date_str.split()
+
+        if len(parts) != 2:
+            return ""
+
+        month_name, year = parts
+        year = int(year)
+
+        month_num = list(calendar.month_name).index(month_name.capitalize())
+
+        # Add 23 months (2 years - 1 month)
+        new_month = month_num + 23
+        new_year = year + (new_month - 1) // 12
+        new_month = ((new_month - 1) % 12) + 1
+
+        best_before = f"{calendar.month_name[new_month].upper()} {new_year}"
+        return best_before
+
+    except:
+        return ""
+
+# ---------------------------
 # DOCX generate / preview
 # ---------------------------
 def generate_docx(data, template_path="template.docx", output_path="generated_coa.docx"):
@@ -152,8 +179,12 @@ viscosity_24h = st.text_input("VISCOSITY 24HRS")
 if st.button("Generate COA"):
     gum, protein, ash, air, fat = calculate_components_random(moisture)
 
+    # ✅ AUTO BEST BEFORE
+    best_before = calculate_best_before(date)
+
     data = {
         "DATE": date,
+        "BEST_BEFORE": best_before,  # 👈 added
         "BATCH_NO": batch_no,
         "MOISTURE": f"{moisture:.2f}%",
         "PH": ph,
@@ -173,7 +204,6 @@ if st.button("Generate COA"):
     if os.path.exists(template_path):
         generate_docx(data, template_path, output_path)
 
-        # ✅ FINAL RENAMING LOGIC (AS REQUESTED)
         safe_batch = (batch_no or "BATCH").replace("/", "-").replace("\\", "-")
         final_filename = f"COA {safe_batch} {code}.docx"
 
